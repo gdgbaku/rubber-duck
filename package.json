@@ -1,0 +1,19 @@
+{
+  "name": "rubber-duck",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "webpack-dev-server --enrty ./src/js/app.js --output-filename ./dist/bundle.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "webpack": "^4.44.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.3.12"
+  }
+}
