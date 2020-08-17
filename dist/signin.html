@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign In</title>
-  <link
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In</title>
+    <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
@@ -14,13 +14,40 @@
     <link rel="stylesheet" href="./color-default.css" />
     <link rel="stylesheet" href="./fontello.css" />
     <link rel="stylesheet" href="./style.css" />
-</head>
-<body>
-  <rd-header></rd-header>
-  
+  </head>
+  <body>
+    <rd-header></rd-header>
+    <main class="container">
+      <div class="row">
+        <div class="col-md-6 m-auto py-5">
+          <form action="">
+            <div class="form-group">
+              <input
+                type="email"
+                class="form-control"
+                name="email"
+                placeholder="Email"
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="password"
+                class="form-control"
+                name="password"
+                placeholder="Password"
+                minlength="8"
+              />
+            </div>
 
-  <rd-footer></rd-footer>
-  <script src="./bundle.js"></script>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Sign In</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
 
-</body>
+    <rd-footer></rd-footer>
+    <script src="./bundle.js"></script>
+  </body>
 </html>

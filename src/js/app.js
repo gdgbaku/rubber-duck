@@ -6,6 +6,21 @@ require("./articleThumbUp");
 require("./teamShort");
 searchForm();
 fetchTeamMembers();
+fetchToS();
+
+async function fetchToS() {
+  console.log(document.querySelector(".rd-signup-form"));
+  if (document.querySelector(".rd-signup-form")) {
+    console.log("start");
+    fetch(`https://gdg-ms-storage.herokuapp.com/storage/terms-and-conditions`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        document.querySelector(".rd-tos").href = res.termsAndConditions;
+      });
+  }
+}
 
 function searchForm() {
   document.querySelector(".search-toggle").addEventListener("click", () => {

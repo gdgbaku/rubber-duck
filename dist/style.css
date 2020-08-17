@@ -1513,3 +1513,10 @@ button.owl-prev:hover,
 button.owl-next:hover {
   background: none !important;
 }
+
+input[type="checkbox"] {
+  -webkit-appearance: checkbox;
+  appearance: checkbox;
+  height: 20px;
+  width: 20px;
+}
