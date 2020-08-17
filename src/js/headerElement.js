@@ -21,9 +21,10 @@ templateHeader.innerHTML = `
           </li>
         </ul>
         <ul
-          class="top-menu heading navbar-nav w-100 d-lg-flex align-items-center"
+          class="top-menu heading navbar-nav w-100 d-md-flex flex-row align-items-center"
         >
-          <li><a href="#" class="btn">Contact</a></li>
+          <li><a href="./signin.html" class="btn">Sign In</a></li>
+          <li><a href="./signup.html" class="btn">Sign Up</a></li>
         </ul>
         <a class="author-avatar" href="#"
           ><img src="./img/thumb/author-avata-1.jpg" alt=""
