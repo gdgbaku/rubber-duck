@@ -787,6 +787,7 @@ header {
   display: inline-block;
   position: relative;
   padding: 0 0 16px 0;
+  padding-right: 2rem;
 }
 
 #main-menu .menu-primary ul > li > a {
@@ -1519,4 +1520,33 @@ input[type="checkbox"] {
   appearance: checkbox;
   height: 20px;
   width: 20px;
+}
+
+.err-msg {
+  display: none;
+  padding: 1rem 2rem;
+  width: 100%;
+  margin: 1rem 0;
+  background-color: #f4b3b3;
+  border: 1px solid #fd6363;
+  color: #a10000;
+  border-radius: 5px;
+}
+
+.success-msg {
+  display: none;
+  padding: 1rem 2rem;
+  width: 100%;
+  margin: 1rem 0;
+  background-color: #c5f6c3;
+  border: 1px solid #59bf56;
+  color: #087404;
+  border-radius: 5px;
+}
+
+.pswd-helper {
+  display: block;
+  color: #444;
+  font-size: 0.7rem;
+  padding: 0.5rem 2rem;
 }

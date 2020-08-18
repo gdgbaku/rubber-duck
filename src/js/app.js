@@ -7,11 +7,10 @@ require("./teamShort");
 searchForm();
 fetchTeamMembers();
 fetchToS();
+addListeners();
 
-async function fetchToS() {
-  console.log(document.querySelector(".rd-signup-form"));
+function fetchToS() {
   if (document.querySelector(".rd-signup-form")) {
-    console.log("start");
     fetch(`https://gdg-ms-storage.herokuapp.com/storage/terms-and-conditions`)
       .then((res) => {
         return res.json();
@@ -19,6 +18,148 @@ async function fetchToS() {
       .then((res) => {
         document.querySelector(".rd-tos").href = res.termsAndConditions;
       });
+  }
+}
+
+function addListeners() {
+  if (document.querySelector(".rd-signup-form")) {
+    document
+      .querySelector(".rd-signup-form button")
+      .addEventListener("click", validateAndSignUp);
+  }
+
+  if (document.querySelector(".rd-signin-form")) {
+    document
+      .querySelector(".rd-signin-form button")
+      .addEventListener("click", validateAndSignIn);
+  }
+}
+
+function validateAndSignIn(e) {
+  e.preventDefault();
+  console.log("clicked");
+  let errMsg = document.querySelector(".err-msg");
+  let signData = {};
+
+  let login = document
+    .querySelector(".rd-signin-form input[type=email]")
+    .checkValidity()
+    ? document.querySelector(".rd-signin-form input[type=email]").value
+    : "";
+  let password = document
+    .querySelector(".rd-signin-form input[type=password]")
+    .checkValidity()
+    ? document.querySelector(".rd-signin-form input[type=password]").value
+    : "";
+
+  if (login !== "" && password !== "") {
+    signData.mail = login;
+    signData.password = password;
+
+    signData = JSON.stringify(signData);
+    fetch(`https://gdg-ms-auth.herokuapp.com/auth/sign-in`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: signData,
+    })
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((res) => {
+        if (res.message) {
+          console.log(res);
+          errMsg.style.display = "block";
+          errMsg.innerHTML = res.message;
+        }
+        if (res.token) {
+          window.localStorage.setItem("usr", res.token);
+          console.log("Saved token");
+        }
+      });
+  }
+}
+
+function validateAndSignUp(e) {
+  console.log("clicked");
+  e.preventDefault();
+  if (document.querySelector(".rd-signup-form")) {
+    let errMsg = document.querySelector(".err-msg");
+    errMsg.style.display = "none";
+
+    let userData = {};
+
+    firstName = document.querySelector("input[name=firstname]").checkValidity()
+      ? document.querySelector("input[name=firstname]").value
+      : "";
+
+    lastName = document.querySelector("input[name=lastname]").checkValidity()
+      ? document.querySelector("input[name=lastname]").value
+      : "";
+
+    email = document.querySelector("input[name=email]").checkValidity()
+      ? document.querySelector("input[name=email]").value
+      : "";
+
+    password = document.querySelector("input[name=password]").checkValidity()
+      ? document.querySelector("input[name=password]").value
+      : "";
+
+    confpassword = document
+      .querySelector("input[name=confpassword]")
+      .checkValidity()
+      ? document.querySelector("input[name=confpassword]").value
+      : "";
+    tos = document.querySelector("#checkTos").checkValidity();
+
+    if (
+      firstName !== "" &&
+      lastName !== "" &&
+      email !== "" &&
+      password !== "" &&
+      confpassword !== "" &&
+      tos === true &&
+      confpassword === password
+    ) {
+      userData.areTermsAndConditionsConfirmed = tos;
+      userData.firstName = firstName;
+      userData.lastName = lastName;
+      userData.mail = email;
+      userData.password = password;
+
+      console.log(JSON.stringify(userData));
+      fetch(`https://gdg-ms-auth.herokuapp.com/user/sign-up`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.status === 400) {
+            errMsg.innerHTML = res.errors[0].defaultMessage;
+            errMsg.style.display = "block";
+          } else if (res.status === 201) {
+            errMsg.classList.add("success-msg");
+            errMsg.style.display = "block";
+            errMsg.innerHTML = `You have successfully signed up! Please, verify your account via link we have sent to your email`;
+          } else if (res.status === 500) {
+            errMsg.innerHTML = res.message;
+            errMsg.style.display = "block";
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      alert("Not Valid");
+    }
+
+    console.log(userData);
   }
 }
 
