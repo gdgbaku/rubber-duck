@@ -43,7 +43,7 @@ templateHeader.innerHTML = `
         
 
         <a class="author-avatar" href="#"
-          ><img src="./img/thumb/author-avata-1.jpg" alt=""
+          ><img src="./img/thumb/default-avatar.png" alt=""
         /></a>
       </div>
       
@@ -100,7 +100,7 @@ class HeaderElement extends HTMLElement {
       })
         .then((res) => {
           console.log(res);
-          if (res.status !== 200 || res.status !== 201) {
+          if (res.status !== 200 && res.status !== 201) {
             this.querySelector(".rd-signin-btn").style.display = "block";
             this.querySelector(".rd-signup-btn").style.display = "block";
 
