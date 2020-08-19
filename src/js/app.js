@@ -4,10 +4,99 @@ require("./articleThumbLeftElement");
 require("./articleThumbRightElement");
 require("./articleThumbUp");
 require("./teamShort");
-searchForm();
-fetchTeamMembers();
-fetchToS();
-addListeners();
+
+import IMask from "imask";
+window.addEventListener("load", function () {
+  searchForm();
+  fetchTeamMembers();
+  fetchToS();
+  addListeners();
+  validatePhoneNumber();
+  contactUsPage();
+});
+
+function contactUsPage() {
+  if (document.querySelector(".rd-contact-form")) {
+    const contSubmitBtn = document.querySelector(
+      '.rd-contact-form input[type="submit"]'
+    );
+
+    contSubmitBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      let firstName;
+      let lastName;
+      let phone;
+      let email;
+      let type;
+      let message;
+
+      if (document.querySelector("input[name=your-name]").checkValidity()) {
+        firstName = document.querySelector("input[name=your-name]").value;
+      }
+
+      if (document.querySelector("input[name=your-lastname]").checkValidity()) {
+        lastName = document.querySelector("input[name=your-lastname]").value;
+      }
+
+      phone = document.querySelector("input[name=your-phone]").value;
+
+      if (
+        validateEmail(document.querySelector("input[name=your-email]").value)
+      ) {
+        email = document.querySelector("input[name=your-email").value;
+      }
+
+      if (document.querySelector("select[name=your-complaint]").value !== 0) {
+        type = document.querySelector("select[name=your-complaint]").value;
+      }
+
+      if (
+        document.querySelector("textarea[name=your-message]").checkValidity()
+      ) {
+        message = document.querySelector("textarea[name=your-message]").value;
+      }
+
+      let complaintData = {};
+      console.log(firstName);
+      console.log(lastName);
+      console.log(phone);
+      console.log(email);
+      console.log(type);
+      console.log(message);
+      if (
+        firstName !== "" &&
+        lastName !== "" &&
+        phone !== "" &&
+        email !== "" &&
+        type !== 0 &&
+        message !== ""
+      ) {
+        complaintData.email = email;
+        complaintData.message = message;
+        complaintData.name = firstName;
+        complaintData.phone = phone;
+        complaintData.surname = lastName;
+        complaintData.typeId = type;
+
+        complaintData = JSON.stringify(complaintData);
+        console.log(complaintData);
+      }
+    });
+  }
+}
+
+function validatePhoneNumber() {
+  if (document.querySelector(".rd-contact-form")) {
+    const phoneInput = document.querySelector(
+      ".rd-contact-form input[type=phone]"
+    );
+    const phonePatternMask = IMask(phoneInput, {
+      mask: "{+994} (00) 000 00 00",
+      lazy: false,
+      placeholderChar: "*",
+    });
+  }
+}
 
 function fetchToS() {
   if (document.querySelector(".rd-signup-form")) {
@@ -210,6 +299,7 @@ async function fetchTeamMembers() {
       memberElement.setAttribute("giturl", member.github);
       memberElement.setAttribute("linkedinurl", member.linkedin);
       memberElement.setAttribute("email", member.email);
+      memberElement.setAttribute("position", member.position);
 
       let fullName = document.createElement("div");
       fullName.setAttribute("slot", "fullname");
@@ -233,4 +323,9 @@ async function fetchTeamMembers() {
   } else {
     console.log("non team");
   }
+}
+
+function validateEmail(email) {
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
 }

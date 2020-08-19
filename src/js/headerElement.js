@@ -9,20 +9,36 @@ templateHeader.innerHTML = `
     <h1 class="logo float-left navbar-brand">
       <a href="index.html" class="logo">Rubber Duck</a>
     </h1>
-    <div class="header-right float-right w-50">
+    <div class="header-right float-right w-50 d-flex flex-row align-items-center justify-content-end">
+      <form
+          action="#"
+          method="get"
+          class="search-form d-lg-flex float-right"
+        >
+          <a href="javascript:void(0)" class="search-toggle">
+            <i class="icon-search"></i>
+          </a>
+          <input
+            type="text"
+            class="search_field"
+            placeholder="Search..."
+            value=""
+            name="s"
+          />
+      </form>
       <div
         class="d-inline-flex float-right text-right align-items-center"
       >
         
         <ul
-          class="top-menu heading navbar-nav w-100 d-md-flex flex-row align-items-center"
+          class="top-menu heading navbar-nav w-100 d-md-flex flex-row row-reverse align-items-center"
         >
-          <li><a href="./signin.html" class="btn">Sign In</a></li>
-          <li><a href="./signup.html" class="btn">Sign Up</a></li>
+          <li><a href="./signin.html" class="btn rd-signin-btn">Sign In</a></li>
+          <li><a href="./signup.html" class="btn rd-signup-btn">Sign Up</a></li>
         </ul>
-        <div class="text-left text-dark">
-          <p class="rd-header-fname"></p>
-          <p class="rd-header-lname"></p>
+        <div class="rd-header-fullname d-flex flex-row text-left text-dark mx-3">
+          <p class="rd-header-fname p-2 m-0"></p>
+          <p class="rd-header-lname p-2 m-0"></p>
         </div>
         
 
@@ -30,22 +46,7 @@ templateHeader.innerHTML = `
           ><img src="./img/thumb/author-avata-1.jpg" alt=""
         /></a>
       </div>
-      <form
-        action="#"
-        method="get"
-        class="search-form d-lg-flex float-right"
-      >
-        <a href="javascript:void(0)" class="search-toggle">
-          <i class="icon-search"></i>
-        </a>
-        <input
-          type="text"
-          class="search_field"
-          placeholder="Search..."
-          value=""
-          name="s"
-        />
-      </form>
+      
     </div>
   </div>
   <div class="clearfix"></div>
@@ -63,7 +64,13 @@ templateHeader.innerHTML = `
             <li><a href="categories.html">Design</a></li>
           </ul>
         </li>
+        <li><a href="team.html">Posts</a></li>
+        <li><a href="team.html">News</a></li>
+        <li><a href="team.html">Forum Questions</a></li>
+        <li><a href="team.html">Write a post</a></li>
+        <li><a href="team.html">Ask a Question</a></li>
         <li><a href="team.html">Team</a></li>
+        <li><a href="contact.html">Contact us</a></li>
         
       </ul>
       <span></span>
@@ -81,6 +88,9 @@ class HeaderElement extends HTMLElement {
     this.appendChild(templateHeader.content.cloneNode(true));
 
     if (window.localStorage.getItem("usr")) {
+      this.querySelector(".rd-signin-btn").style.display = "none";
+      this.querySelector(".rd-signup-btn").style.display = "none";
+
       let token = window.localStorage.getItem("usr");
       fetch(`https://gdg-ms-auth.herokuapp.com/auth/validate`, {
         method: "POST",
@@ -90,6 +100,15 @@ class HeaderElement extends HTMLElement {
       })
         .then((res) => {
           console.log(res);
+          if (res.status !== 200 || res.status !== 201) {
+            this.querySelector(".rd-signin-btn").style.display = "block";
+            this.querySelector(".rd-signup-btn").style.display = "block";
+
+            this.querySelector(".author-avatar img").setAttribute(
+              "src",
+              `./img/thumb/default-avatar.png`
+            );
+          }
           return res.json();
         })
         .then((res) => {
@@ -104,6 +123,7 @@ class HeaderElement extends HTMLElement {
               if (res.firstName) {
                 this.querySelector(".rd-header-fname").innerHTML =
                   res.firstName;
+                this.querySelector(".rd-header-lname").innerHTML = res.lastName;
               }
             });
         });

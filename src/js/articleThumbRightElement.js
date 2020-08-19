@@ -1,9 +1,8 @@
 const template = document.createElement("template");
 
 template.innerHTML = `
-<div class="col-md-9">
+<div class="col-md-7">
   <div class="align-self-center">
-    <div class="capsSubtle mb-2">Editors' Pick</div>
     <h3 class="entry-title mb-3">
       <a href="single.html"
         >Home Internet Is Becoming a Luxury for the Wealthy</a
@@ -35,7 +34,7 @@ template.innerHTML = `
   </div>
   </div>
 <div
-  class="col-md-3 bgcover"
+  class="col-md-4 bgcover"
   style="
     background-image: url(./img/thumb/thumb-800x495.jpg);
   "

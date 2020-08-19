@@ -23,6 +23,9 @@ template.innerHTML = `
       clip-path: circle(50%);
       height: 100px;
       width: 100px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
     }
 
     .team-short-top {
@@ -72,11 +75,27 @@ template.innerHTML = `
       margin-bottom: 0.5rem;
     }
 
+    .mentor {
+      flex-direction: column;
+      text-align: center;
+      background-color: #ddd;
+      border-radius: 5px;
+      box-shadow: 0px 0px 5px rgba(3, 3, 3, 0.2);
+      padding: 2rem 0;
+    }
+
+    .mentor .content-social-author{
+      justify-content: center;
+    }
+
+    .mentor .content-social-author .author-social:last-child {
+      margin-right: 0;
+    }
+
   </style>
   
     <div class="team-short">
         <div class="team-short-img">
-            <img alt="author avatar" src="./img/thumb/author-avata-1.jpg" class="team-short-avatar">
         </div>
         <div class="team-short-content">
           <div class="team-short-top">
@@ -110,10 +129,12 @@ class TeamShort extends HTMLElement {
     let avatarUrl = this.getAttribute("avatar");
     let gitUrl = this.getAttribute("giturl");
     let linkedinUrl = this.getAttribute("linkedinurl");
-
-    let avatarImg = this.shadowRoot.querySelector(".team-short-avatar");
-    avatarImg.setAttribute("src", avatarUrl);
-
+    let avatarImg = this.shadowRoot.querySelector(".team-short-img");
+    avatarImg.style.backgroundImage = `url(${avatarUrl})`;
+    if (this.getAttribute("position") === "Mentor") {
+      this.shadowRoot.querySelector(".team-short").classList.add("mentor");
+      this.classList.add("col-md-12");
+    }
     let gitAnchor = this.shadowRoot.querySelector(
       ".content-social-author a:first-child"
     );

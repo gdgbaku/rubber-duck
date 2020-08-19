@@ -48,4 +48,4 @@ class ArticleLeftImg extends HTMLElement {
   }
 }
 
-window.customElements.define("rb-article-left", ArticleLeftImg);
+window.customElements.define("rd-article-left", ArticleLeftImg);
