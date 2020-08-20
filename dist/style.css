@@ -1550,3 +1550,9 @@ input[type="checkbox"] {
   font-size: 0.7rem;
   padding: 0.5rem 2rem;
 }
+
+.validity-msg {
+  color: #ff5252;
+  padding: 0.5rem 1rem;
+  font-size: 0.7rem;
+}

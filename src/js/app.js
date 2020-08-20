@@ -180,28 +180,46 @@ function validateAndSignUp(e) {
 
     let userData = {};
 
-    firstName = document.querySelector("input[name=firstname]").checkValidity()
-      ? document.querySelector("input[name=firstname]").value
-      : "";
+    let firstName;
 
-    lastName = document.querySelector("input[name=lastname]").checkValidity()
+    if (document.querySelector("input[name=firstname]").checkValidity()) {
+      firstName = document.querySelector("input[name=firstname]").value;
+    } else {
+      firstName = "";
+      document.querySelector(
+        "input[name=firstname] ~ .validity-msg"
+      ).innerHTML = "Value not valid";
+    }
+
+    let lastName = document
+      .querySelector("input[name=lastname]")
+      .checkValidity()
       ? document.querySelector("input[name=lastname]").value
       : "";
+    if (document.querySelector("input[name=lastname]").checkValidity()) {
+      lastName = document.querySelector("input[name=lastname]").value;
+    } else {
+      lastName = "";
+      document.querySelector("input[name=lastname] ~ .validity-msg").innerHTML =
+        "Value not valid";
+    }
 
-    email = document.querySelector("input[name=email]").checkValidity()
+    let email = document.querySelector("input[name=email]").checkValidity()
       ? document.querySelector("input[name=email]").value
       : "";
 
-    password = document.querySelector("input[name=password]").checkValidity()
+    let password = document
+      .querySelector("input[name=password]")
+      .checkValidity()
       ? document.querySelector("input[name=password]").value
       : "";
 
-    confpassword = document
+    let confpassword = document
       .querySelector("input[name=confpassword]")
       .checkValidity()
       ? document.querySelector("input[name=confpassword]").value
       : "";
-    tos = document.querySelector("#checkTos").checkValidity();
+    let tos = document.querySelector("#checkTos").checkValidity();
 
     if (
       firstName !== "" &&
@@ -245,7 +263,7 @@ function validateAndSignUp(e) {
           console.log(err);
         });
     } else {
-      alert("Not Valid");
+      console.log("Not Valid");
     }
 
     console.log(userData);
