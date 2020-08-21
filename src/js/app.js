@@ -121,6 +121,58 @@ function addListeners() {
     document
       .querySelector(".rd-signin-form button")
       .addEventListener("click", validateAndSignIn);
+
+    document
+      .querySelector(".pass-recovery")
+      .addEventListener("click", passwordRecover);
+  }
+}
+
+function passwordRecover() {
+  let email;
+  document.querySelector(".err-msg").innerHTML = "";
+  document.querySelector(".err-msg").style.display = "none";
+  if (
+    validateEmail(
+      document.querySelector(".rd-signin-form input[type=email]").value
+    )
+  ) {
+    email = document.querySelector(".rd-signin-form input[type=email]").value;
+    document.querySelector(
+      ".rd-signin-form input[type=email] + .validity-msg"
+    ).innerHTML = "";
+  } else {
+    email = "";
+    document.querySelector(
+      ".rd-signin-form input[type=email] + .validity-msg"
+    ).innerHTML = "Email not valid";
+  }
+
+  if (email !== "") {
+    fetch(`https://gdg-ms-auth.herokuapp.com/user/forgot-password`, {
+      method: "POST",
+      body: email,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        console.log(res);
+
+        if (!res.ok) {
+          throw Error("Something went wrong. Check your email, please.");
+        } else {
+          console.log("ok");
+          document.querySelector(".err-msg").innerHTML = "Sent";
+          document.querySelector(".err-msg").style.display = "block";
+          document.querySelector(".err-msg").classList.add("success-msg");
+        }
+      })
+
+      .catch((err) => {
+        document.querySelector(".err-msg").innerHTML = err;
+        document.querySelector(".err-msg").style.display = "block";
+      });
   }
 }
 
@@ -130,16 +182,41 @@ function validateAndSignIn(e) {
   let errMsg = document.querySelector(".err-msg");
   let signData = {};
 
-  let login = document
-    .querySelector(".rd-signin-form input[type=email]")
-    .checkValidity()
-    ? document.querySelector(".rd-signin-form input[type=email]").value
-    : "";
-  let password = document
-    .querySelector(".rd-signin-form input[type=password]")
-    .checkValidity()
-    ? document.querySelector(".rd-signin-form input[type=password]").value
-    : "";
+  let login;
+
+  if (
+    validateEmail(
+      document.querySelector(".rd-signin-form input[type=email]").value
+    )
+  ) {
+    login = document.querySelector(".rd-signin-form input[type=email]").value;
+    document.querySelector(
+      ".rd-signin-form input[type=email] + .validity-msg"
+    ).innerHTML = "";
+  } else {
+    login = "";
+    document.querySelector(
+      ".rd-signin-form input[type=email] + .validity-msg"
+    ).innerHTML = "Email not valid";
+  }
+
+  let password;
+  if (
+    document
+      .querySelector(".rd-signin-form input[type=password]")
+      .checkValidity()
+  ) {
+    password = document.querySelector(".rd-signin-form input[type=password]")
+      .value;
+    document.querySelector(
+      ".rd-signin-form input[type=password] + .validity-msg"
+    ).innerHTML = "";
+  } else {
+    password = "";
+    document.querySelector(
+      ".rd-signin-form input[type=password] + .validity-msg"
+    ).innerHTML = "Value not valid";
+  }
 
   if (login !== "" && password !== "") {
     signData.mail = login;
@@ -165,6 +242,7 @@ function validateAndSignIn(e) {
         }
         if (res.token) {
           window.localStorage.setItem("usr", res.token);
+          location.href = `./index.html`;
           console.log("Saved token");
         }
       });
@@ -184,6 +262,9 @@ function validateAndSignUp(e) {
 
     if (document.querySelector("input[name=firstname]").checkValidity()) {
       firstName = document.querySelector("input[name=firstname]").value;
+      document.querySelector(
+        "input[name=firstname] ~ .validity-msg"
+      ).innerHTML = "";
     } else {
       firstName = "";
       document.querySelector(
@@ -191,35 +272,66 @@ function validateAndSignUp(e) {
       ).innerHTML = "Value not valid";
     }
 
-    let lastName = document
-      .querySelector("input[name=lastname]")
-      .checkValidity()
-      ? document.querySelector("input[name=lastname]").value
-      : "";
+    let lastName;
+
     if (document.querySelector("input[name=lastname]").checkValidity()) {
       lastName = document.querySelector("input[name=lastname]").value;
+      document.querySelector("input[name=lastname] ~ .validity-msg").innerHTML =
+        "";
     } else {
       lastName = "";
       document.querySelector("input[name=lastname] ~ .validity-msg").innerHTML =
         "Value not valid";
     }
 
-    let email = document.querySelector("input[name=email]").checkValidity()
-      ? document.querySelector("input[name=email]").value
-      : "";
+    let email;
+    if (validateEmail(document.querySelector("input[name=email]").value)) {
+      email = document.querySelector("input[name=email]").value;
+      document.querySelector("input[name=email] ~ .validity-msg").innerHTML =
+        "";
+    } else {
+      email = "";
+      document.querySelector("input[name=email] ~ .validity-msg").innerHTML =
+        "Value not valid";
+    }
 
-    let password = document
-      .querySelector("input[name=password]")
-      .checkValidity()
-      ? document.querySelector("input[name=password]").value
-      : "";
+    let password;
+    if (document.querySelector("input[name=password]").checkValidity()) {
+      password = document.querySelector("input[name=password]").value;
+      document.querySelector("input[name=password] ~ .validity-msg").innerHTML =
+        "";
+    } else {
+      password = "";
+      document.querySelector("input[name=password] ~ .validity-msg").innerHTML =
+        "Value not valid";
+    }
 
-    let confpassword = document
-      .querySelector("input[name=confpassword]")
-      .checkValidity()
-      ? document.querySelector("input[name=confpassword]").value
-      : "";
+    let confpassword;
+
+    if (
+      document.querySelector("input[name=confpassword]").checkValidity() &&
+      document.querySelector("input[name=confpassword]").value === password
+    ) {
+      confpassword = document.querySelector("input[name=confpassword]").value;
+      document.querySelector(
+        "input[name=confpassword] ~ .validity-msg"
+      ).innerHTML = "";
+    } else {
+      confpassword = "";
+      document.querySelector(
+        "input[name=confpassword] ~ .validity-msg"
+      ).innerHTML = "Password values don't match";
+    }
+
     let tos = document.querySelector("#checkTos").checkValidity();
+    if (document.querySelector("#checkTos").checkValidity()) {
+      tos = document.querySelector("#checkTos").checkValidity();
+      document.querySelector("#checkTos ~ .validity-msg").innerHTML = "";
+    } else {
+      tos = false;
+      document.querySelector("#checkTos ~ .validity-msg").innerHTML =
+        "Please, agree to proceed";
+    }
 
     if (
       firstName !== "" &&

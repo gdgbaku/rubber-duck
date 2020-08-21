@@ -42,7 +42,7 @@ templateHeader.innerHTML = `
         </div>
         
 
-        <a class="author-avatar" href="#"
+        <a class="author-avatar" href="userprofile.html"
           ><img src="./img/thumb/default-avatar.png" alt=""
         /></a>
       </div>
