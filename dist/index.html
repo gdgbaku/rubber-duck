@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rubber Duck</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <link href="./responsive.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./color-default.css" />
+    <link rel="stylesheet" href="./fontello.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <rd-header></rd-header>
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-8">
+          <h2 class="spanborder h4">
+            <span>Articles</span>
+          </h2>
+          <div class="row justify-content-between">
+            <rd-article-right class="row mb-5"></rd-article-right>
+            <rd-article-right class="row mb-5"></rd-article-right>
+            <rd-article-right class="row mb-5"></rd-article-right>
+            <rd-article-right class="row mb-5"></rd-article-right>
+            <ul class="page-numbers heading">
+              <li>
+                <span aria-current="page" class="page-numbers current">1</span>
+              </li>
+              <li><a class="page-numbers" href="#">2</a></li>
+              <li><a class="page-numbers" href="#">3</a></li>
+              <li><a class="page-numbers" href="#">4</a></li>
+              <li><a class="page-numbers" href="#">5</a></li>
+              <li><a class="page-numbers" href="#">...</a></li>
+              <li><a class="page-numbers" href="#">98</a></li>
+              <li>
+                <a class="next page-numbers" href="#"
+                  ><i class="icon-right-open-big"></i
+                ></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <h2 class="spanborder h4">
+            <span>News</span>
+          </h2>
+          <div class="col-md-12">
+            <rd-article-left class="col-md-12"></rd-article-left>
+            <rd-article-left class="col-md-12"></rd-article-left>
+            <rd-article-left class="col-md-12"></rd-article-left>
+            <rd-article-left class="col-md-12"></rd-article-left>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col-md-10">
+          <h2 class="spanborder h4">
+            <span>Forum Questions</span>
+          </h2>
+          <div class="row justify-content-between">
+            <rd-article-right class="row mb-5"></rd-article-right>
+            <rd-article-right class="row mb-5"></rd-article-right>
+            <rd-article-right class="row mb-5"></rd-article-right>
+            <rd-article-right class="row mb-5"></rd-article-right>
+            <ul class="page-numbers heading">
+              <li>
+                <span aria-current="page" class="page-numbers current">1</span>
+              </li>
+              <li><a class="page-numbers" href="#">2</a></li>
+              <li><a class="page-numbers" href="#">3</a></li>
+              <li><a class="page-numbers" href="#">4</a></li>
+              <li><a class="page-numbers" href="#">5</a></li>
+              <li><a class="page-numbers" href="#">...</a></li>
+              <li><a class="page-numbers" href="#">98</a></li>
+              <li>
+                <a class="next page-numbers" href="#"
+                  ><i class="icon-right-open-big"></i
+                ></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <rd-footer></rd-footer>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./bundle.js"></script>
+  </body>
+</html>
