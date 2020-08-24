@@ -10,22 +10,7 @@ templateHeader.innerHTML = `
       <a href="index.html" class="logo">Rubber Duck</a>
     </h1>
     <div class="header-right float-right w-50 d-flex flex-row align-items-center justify-content-end">
-      <form
-          action="#"
-          method="get"
-          class="search-form d-lg-flex float-right"
-        >
-          <a href="javascript:void(0)" class="search-toggle">
-            <i class="icon-search"></i>
-          </a>
-          <input
-            type="text"
-            class="search_field"
-            placeholder="Search..."
-            value=""
-            name="s"
-          />
-      </form>
+      
       <div
         class="d-inline-flex float-right text-right align-items-center"
       >
@@ -56,14 +41,7 @@ templateHeader.innerHTML = `
     <div class="menu-primary">
       <ul class="d-flex justify-content-start">
         <li class="current-menu-item"><a href="index.html">Home</a></li>
-        <li class="menu-item-has-children">
-          <a href="categories.html">Categories</a>
-          <ul class="sub-menu">
-            <li><a href="categories.html">Politics</a></li>
-            <li><a href="categories.html">Health</a></li>
-            <li><a href="categories.html">Design</a></li>
-          </ul>
-        </li>
+        
         <li><a href="team.html">Posts</a></li>
         <li><a href="team.html">News</a></li>
         <li><a href="team.html">Forum Questions</a></li>
@@ -108,8 +86,10 @@ class HeaderElement extends HTMLElement {
               "src",
               `./img/thumb/default-avatar.png`
             );
+            throw new Error("Not logged in");
+          } else {
+            return res.json();
           }
-          return res.json();
         })
         .then((res) => {
           console.log(res);
@@ -126,6 +106,9 @@ class HeaderElement extends HTMLElement {
                 this.querySelector(".rd-header-lname").innerHTML = res.lastName;
               }
             });
+        })
+        .catch((err) => {
+          return;
         });
     }
   }

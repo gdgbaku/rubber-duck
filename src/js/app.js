@@ -12,7 +12,7 @@ let showPassword = false;
 
 // Call all needen functions on page load
 window.addEventListener("load", function () {
-  searchForm();
+  // searchForm();
   fetchTeamMembers();
   fetchToS();
   addListeners();
@@ -38,10 +38,26 @@ function contactUsPage() {
 
       if (document.querySelector("input[name=your-name]").checkValidity()) {
         firstName = document.querySelector("input[name=your-name]").value;
+        document.querySelector(
+          "input[name=your-name] + .validity-msg"
+        ).innerHTML = "";
+      } else {
+        firstName = "";
+        document.querySelector(
+          "input[name=your-name] + .validity-msg"
+        ).innerHTML = "Value not valid";
       }
 
       if (document.querySelector("input[name=your-lastname]").checkValidity()) {
         lastName = document.querySelector("input[name=your-lastname]").value;
+        document.querySelector(
+          "input[name=your-lastname] + .validity-msg"
+        ).innerHTML = "";
+      } else {
+        lastName = "";
+        document.querySelector(
+          "input[name=your-lastname] + .validity-msg"
+        ).innerHTML = "Value not valid";
       }
 
       phone = document.querySelector("input[name=your-phone]").value;
@@ -50,25 +66,44 @@ function contactUsPage() {
         validateEmail(document.querySelector("input[name=your-email]").value)
       ) {
         email = document.querySelector("input[name=your-email").value;
+        document.querySelector(
+          "input[name=your-email] + .validity-msg"
+        ).innerHTML = "";
+      } else {
+        email = "";
+        document.querySelector(
+          "input[name=your-email] + .validity-msg"
+        ).innerHTML = "Value not valid";
       }
-
-      if (document.querySelector("select[name=your-complaint]").value !== 0) {
+      console.log(document.querySelector("select[name=your-complaint]").value);
+      if (document.querySelector("select[name=your-complaint]").value != 0) {
         type = document.querySelector("select[name=your-complaint]").value;
+        document.querySelector(
+          "select[name=your-complaint] + .validity-msg"
+        ).innerHTML = "";
+      } else {
+        type = 0;
+        document.querySelector(
+          "select[name=your-complaint] + .validity-msg"
+        ).innerHTML = "Value not valid";
       }
 
       if (
         document.querySelector("textarea[name=your-message]").checkValidity()
       ) {
         message = document.querySelector("textarea[name=your-message]").value;
+        document.querySelector(
+          "textarea[name=your-message] + .validity-msg"
+        ).innerHTML = "";
+      } else {
+        message = "";
+        document.querySelector(
+          "textarea[name=your-message] + .validity-msg"
+        ).innerHTML = "Value not valid";
       }
 
       let complaintData = {};
-      console.log(firstName);
-      console.log(lastName);
-      console.log(phone);
-      console.log(email);
-      console.log(type);
-      console.log(message);
+
       if (
         firstName !== "" &&
         lastName !== "" &&
@@ -84,8 +119,33 @@ function contactUsPage() {
         complaintData.surname = lastName;
         complaintData.typeId = type;
 
-        complaintData = JSON.stringify(complaintData);
         console.log(complaintData);
+
+        fetch(`https://gdg-ms-complaint.herokuapp.com/complaint`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(complaintData),
+        })
+          .then((res) => {
+            console.log(res);
+
+            if (res.ok) {
+              return res;
+            } else {
+              throw new Error(res.statusText);
+            }
+          })
+          .then((res) => {
+            document.querySelector(".err-msg").classList.add("success-msg");
+            document.querySelector(".err-msg").style.display = "block";
+            document.querySelector(".err-msg").innerHTML =
+              "Message has been sent";
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     });
   }
@@ -98,9 +158,8 @@ function validatePhoneNumber() {
       ".rd-contact-form input[type=phone]"
     );
     const phonePatternMask = IMask(phoneInput, {
-      mask: "{+994} (00) 000 00 00",
+      mask: /^\+?[0-9]*$/,
       lazy: false,
-      placeholderChar: "*",
     });
   }
 }
@@ -407,13 +466,13 @@ function validateAndSignUp(e) {
 }
 
 // Toggle search form visibility
-function searchForm() {
-  document.querySelector(".search-toggle").addEventListener("click", () => {
-    document
-      .querySelector("header .search-form")
-      .classList.toggle("open-search");
-  });
-}
+// function searchForm() {
+//   document.querySelector(".search-toggle").addEventListener("click", () => {
+//     document
+//       .querySelector("header .search-form")
+//       .classList.toggle("open-search");
+//   });
+// }
 
 // Fetch team members when on team page
 async function fetchTeamMembers() {

@@ -98,10 +98,10 @@ template.innerHTML = `
         <div class="team-short-content">
           <div class="team-short-top">
             <h5>
-              <a href="author.html" title="Ryan" rel="author">
+              <h3 href="#" title="Ryan" rel="author">
                 <slot name="fullname"></slot>
                
-              </a>
+              </h3>
             </h5>
             <p class="team-position"><slot name="position"></slot></p>
           </div>
