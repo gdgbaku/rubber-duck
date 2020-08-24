@@ -78,9 +78,7 @@ template.innerHTML = `
     .mentor {
       flex-direction: column;
       text-align: center;
-      background-color: #ddd;
       border-radius: 5px;
-      box-shadow: 0px 0px 5px rgba(3, 3, 3, 0.2);
       padding: 2rem 0;
     }
 

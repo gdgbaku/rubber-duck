@@ -6,6 +6,11 @@ require("./articleThumbUp");
 require("./teamShort");
 
 import IMask from "imask";
+
+// show password flag
+let showPassword = false;
+
+// Call all needen functions on page load
 window.addEventListener("load", function () {
   searchForm();
   fetchTeamMembers();
@@ -15,6 +20,7 @@ window.addEventListener("load", function () {
   contactUsPage();
 });
 
+// When on contact page add click listener to the button and submit the form
 function contactUsPage() {
   if (document.querySelector(".rd-contact-form")) {
     const contSubmitBtn = document.querySelector(
@@ -85,6 +91,7 @@ function contactUsPage() {
   }
 }
 
+// Use IMask.js to validate phone number input
 function validatePhoneNumber() {
   if (document.querySelector(".rd-contact-form")) {
     const phoneInput = document.querySelector(
@@ -98,6 +105,7 @@ function validatePhoneNumber() {
   }
 }
 
+// When on signup page fetch the link to the terms and conditions link
 function fetchToS() {
   if (document.querySelector(".rd-signup-form")) {
     fetch(`https://gdg-ms-storage.herokuapp.com/storage/terms-and-conditions`)
@@ -110,24 +118,32 @@ function fetchToS() {
   }
 }
 
+// Here we add listeners relative to the current page
 function addListeners() {
   if (document.querySelector(".rd-signup-form")) {
     document
-      .querySelector(".rd-signup-form button")
+      .querySelector(".rd-signup-form .rd-signup-btn")
       .addEventListener("click", validateAndSignUp);
   }
 
   if (document.querySelector(".rd-signin-form")) {
     document
-      .querySelector(".rd-signin-form button")
+      .querySelector(".rd-signin-form .rd-signin-btn")
       .addEventListener("click", validateAndSignIn);
 
     document
       .querySelector(".pass-recovery")
       .addEventListener("click", passwordRecover);
   }
+
+  if (document.querySelector(".rd-password-input")) {
+    document
+      .querySelector(".rd-password-input .rd-show-password")
+      .addEventListener("click", showPasswordToggle);
+  }
 }
 
+// Request the password recovery link, needs to be reworked to use a separate input element
 function passwordRecover() {
   let email;
   document.querySelector(".err-msg").innerHTML = "";
@@ -176,6 +192,7 @@ function passwordRecover() {
   }
 }
 
+// When on signin page, send Auth request
 function validateAndSignIn(e) {
   e.preventDefault();
   console.log("clicked");
@@ -249,6 +266,7 @@ function validateAndSignIn(e) {
   }
 }
 
+// When on sign up page send signup request
 function validateAndSignUp(e) {
   console.log("clicked");
   e.preventDefault();
@@ -382,6 +400,7 @@ function validateAndSignUp(e) {
   }
 }
 
+// Toggle search form visibility
 function searchForm() {
   document.querySelector(".search-toggle").addEventListener("click", () => {
     document
@@ -390,6 +409,7 @@ function searchForm() {
   });
 }
 
+// Fetch team members when on team page
 async function fetchTeamMembers() {
   if (document.querySelector(".team-members")) {
     const url = `https://gdg-ms-team.herokuapp.com/api/members`;
@@ -425,6 +445,7 @@ async function fetchTeamMembers() {
     for (let member of members) {
       let memberElement = document.createElement("rd-team-short");
       memberElement.classList.add("col-md-4");
+      memberElement.classList.add("m-auto");
       memberElement.setAttribute("avatar", member.photo[0]);
       memberElement.setAttribute("giturl", member.github);
       memberElement.setAttribute("linkedinurl", member.linkedin);
@@ -455,7 +476,31 @@ async function fetchTeamMembers() {
   }
 }
 
+// A simple basic email validation
 function validateEmail(email) {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
+}
+
+// Toggle show password
+function showPasswordToggle() {
+  if (!showPassword) {
+    document
+      .querySelector(".rd-password-input input")
+      .setAttribute("type", "text");
+    document.querySelector(".rd-password-input .fa-eye").style.display = "none";
+    document.querySelector(".rd-password-input .fa-eye-slash").style.display =
+      "inline-block";
+    showPassword = !showPassword;
+  } else {
+    document
+      .querySelector(".rd-password-input input")
+      .setAttribute("type", "password");
+    document.querySelector(".rd-password-input .fa-eye-slash").style.display =
+      "none";
+
+    document.querySelector(".rd-password-input .fa-eye").style.display =
+      "inline-block";
+    showPassword = !showPassword;
+  }
 }
