@@ -146,21 +146,22 @@ function addListeners() {
 // Request the password recovery link, needs to be reworked to use a separate input element
 function passwordRecover() {
   let email;
-  document.querySelector(".err-msg").innerHTML = "";
-  document.querySelector(".err-msg").style.display = "none";
+  document.querySelector("#passRecoveryModal .err-msg").innerHTML = "";
+  document.querySelector("#passRecoveryModal .err-msg").style.display = "none";
   if (
     validateEmail(
-      document.querySelector(".rd-signin-form input[type=email]").value
+      document.querySelector("#passRecoveryModal input[type=email]").value
     )
   ) {
-    email = document.querySelector(".rd-signin-form input[type=email]").value;
+    email = document.querySelector("#passRecoveryModal input[type=email]")
+      .value;
     document.querySelector(
-      ".rd-signin-form input[type=email] + .validity-msg"
+      "#passRecoveryModal input[type=email] + .validity-msg"
     ).innerHTML = "";
   } else {
     email = "";
     document.querySelector(
-      ".rd-signin-form input[type=email] + .validity-msg"
+      "#passRecoveryModal input[type=email] + .validity-msg"
     ).innerHTML = "Email not valid";
   }
 
@@ -179,15 +180,20 @@ function passwordRecover() {
           throw Error("Something went wrong. Check your email, please.");
         } else {
           console.log("ok");
-          document.querySelector(".err-msg").innerHTML = "Sent";
-          document.querySelector(".err-msg").style.display = "block";
-          document.querySelector(".err-msg").classList.add("success-msg");
+          document.querySelector("#passRecoveryModal .err-msg").innerHTML =
+            "Sent";
+          document.querySelector("#passRecoveryModal .err-msg").style.display =
+            "block";
+          document
+            .querySelector("#passRecoveryModal .err-msg")
+            .classList.add("success-msg");
         }
       })
 
       .catch((err) => {
-        document.querySelector(".err-msg").innerHTML = err;
-        document.querySelector(".err-msg").style.display = "block";
+        document.querySelector("#passRecoveryModal .err-msg").innerHTML = err;
+        document.querySelector("#passRecoveryModal .err-msg").style.display =
+          "block";
       });
   }
 }
