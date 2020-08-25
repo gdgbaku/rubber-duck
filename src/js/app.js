@@ -442,6 +442,7 @@ function validateAndSignUp(e) {
         .catch((err) => {
           return;
         });
+
     }
   }
 }
@@ -517,6 +518,7 @@ async function fetchTeamMembers() {
       memberElement.appendChild(position);
       teamContainer.appendChild(memberElement);
     }
+
   }
 }
 
