@@ -42,11 +42,11 @@ templateHeader.innerHTML = `
       <ul class="d-flex justify-content-start">
         <li class="current-menu-item"><a href="index.html">Home</a></li>
         
-        <li><a href="team.html">Posts</a></li>
-        <li><a href="team.html">News</a></li>
-        <li><a href="team.html">Forum Questions</a></li>
-        <li><a href="team.html">Write a post</a></li>
-        <li><a href="team.html">Ask a Question</a></li>
+        <li><a href="404.html">Posts</a></li>
+        <li><a href="404.html">News</a></li>
+        <li><a href="404.html">Forum Questions</a></li>
+        <li><a href="404.html">Write a post</a></li>
+        <li><a href="404.html">Ask a Question</a></li>
         <li><a href="team.html">Team</a></li>
         <li><a href="contact.html">Contact us</a></li>
         

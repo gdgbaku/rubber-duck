@@ -98,7 +98,7 @@ template.innerHTML = `
         <div class="team-short-content">
           <div class="team-short-top">
             <h5>
-              <h3 href="#" title="Ryan" rel="author">
+              <h3>
                 <slot name="fullname"></slot>
                
               </h3>

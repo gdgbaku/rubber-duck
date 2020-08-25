@@ -4,7 +4,7 @@ template.innerHTML = `
 <div class="col-md-7">
   <div class="align-self-center">
     <h3 class="entry-title mb-3">
-      <a href="./single.html"
+      <a href="./404.html"
         >Home Internet Is Becoming a Luxury for the Wealthy</a
       >
     </h3>
@@ -16,8 +16,8 @@ template.innerHTML = `
       </p>
     </div>
     <div class="entry-meta align-items-center">
-      <a href="/author.html">Dave Gershgorn</a> in
-      <a href="/archive.html">OneZero</a><br />
+      <p>Dave Gershgorn</p> in
+      <a href="/404.html">OneZero</a><br />
       <span>May 21</span>
       <span class="middotDivider"></span>
       <span class="readingTime" title="3 min read"
