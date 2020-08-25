@@ -16,7 +16,9 @@ template.innerHTML = `
       </p>
     </div>
     <div class="entry-meta align-items-center">
-      <p>Dave Gershgorn</p> in
+
+      <p >Dave Gershgorn</p> in
+
       <a href="/404.html">OneZero</a><br />
       <span>May 21</span>
       <span class="middotDivider"></span>

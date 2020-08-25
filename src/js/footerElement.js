@@ -67,14 +67,20 @@ class footerElement extends HTMLElement {
           body: subData,
         })
           .then((res) => {
-            return res.json();
+            if (res.ok) {
+              return res;
+            } else {
+              return;
+            }
           })
           .then((res) => {
             this.querySelector(".rd-msg").innerHTML =
               "Thank you for subscribing!";
+            this.querySelector("input[type=email]").value = "";
           });
       } else {
-        return;
+        this.querySelector(".rd-msg").innerHTML = "Invalid email";
+
       }
     });
   }

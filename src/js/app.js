@@ -282,12 +282,12 @@ function validateAndSignIn(e) {
     password = document.querySelector(".rd-signin-form input[type=password]")
       .value;
     document.querySelector(
-      ".rd-signin-form input[type=password] + .validity-msg"
+      ".rd-signin-form .rd-password-input + .validity-msg"
     ).innerHTML = "";
   } else {
     password = "";
     document.querySelector(
-      ".rd-signin-form input[type=password] + .validity-msg"
+      ".rd-signin-form .rd-password-input + .validity-msg"
     ).innerHTML = "Value not valid";
   }
 
@@ -442,7 +442,7 @@ function validateAndSignUp(e) {
         .catch((err) => {
           return;
         });
-    } else {
+
     }
   }
 }
@@ -518,7 +518,7 @@ async function fetchTeamMembers() {
       memberElement.appendChild(position);
       teamContainer.appendChild(memberElement);
     }
-  } else {
+
   }
 }
 
