@@ -3,7 +3,7 @@ const articleLeftImgTemplate = document.createElement("template");
 articleLeftImgTemplate.innerHTML = `
   <div class="mb-3 d-flex row">
     <figure class="col-md-5">
-      <a href="single.html"
+      <a href="404.html"
         ><img
           src="./img/thumb/thumb-512x512.jpg"
           alt="post-title"
@@ -11,7 +11,7 @@ articleLeftImgTemplate.innerHTML = `
     </figure>
     <div class="entry-content col-md-7 pl-md-0">
       <h5 class="entry-title mb-3">
-        <a href="single.html"
+        <a href="404.html"
           >I Learned How to Die Before I Knew How to Live</a
         >
       </h5>
@@ -22,8 +22,8 @@ articleLeftImgTemplate.innerHTML = `
         </p>
       </div>
       <div class="entry-meta align-items-center">
-        <a href="author.html">Anna Goldfarb</a> in
-        <a href="archive.html">Fashion</a><br />
+        <p >Anna Goldfarb</p> in
+        <a href="404.html">Fashion</a><br />
         <span>March 12</span>
         <span class="middotDivider"></span>
         <span class="readingTime" title="3 min read"

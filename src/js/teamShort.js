@@ -145,7 +145,6 @@ class TeamShort extends HTMLElement {
 
     let email = this.shadowRoot.querySelector(".email");
     email.href = `mailto:${this.getAttribute("email")}`;
-    console.log(avatarUrl);
   }
 }
 

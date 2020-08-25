@@ -42,11 +42,11 @@ templateHeader.innerHTML = `
       <ul class="d-flex justify-content-start">
         <li class="current-menu-item"><a href="index.html">Home</a></li>
         
-        <li><a href="team.html">Posts</a></li>
-        <li><a href="team.html">News</a></li>
-        <li><a href="team.html">Forum Questions</a></li>
-        <li><a href="team.html">Write a post</a></li>
-        <li><a href="team.html">Ask a Question</a></li>
+        <li><a href="404.html">Posts</a></li>
+        <li><a href="404.html">News</a></li>
+        <li><a href="404.html">Forum Questions</a></li>
+        <li><a href="404.html">Write a post</a></li>
+        <li><a href="404.html">Ask a Question</a></li>
         <li><a href="team.html">Team</a></li>
         <li><a href="contact.html">Contact us</a></li>
         
@@ -77,7 +77,6 @@ class HeaderElement extends HTMLElement {
         },
       })
         .then((res) => {
-          console.log(res);
           if (res.status !== 200 && res.status !== 201) {
             this.querySelector(".rd-signin-btn").style.display = "block";
             this.querySelector(".rd-signup-btn").style.display = "block";
@@ -92,14 +91,11 @@ class HeaderElement extends HTMLElement {
           }
         })
         .then((res) => {
-          console.log(res);
-
           fetch(`https://gdg-ms-auth.herokuapp.com/user/${res.userId}`)
             .then((res) => {
               return res.json();
             })
             .then((res) => {
-              console.log(res);
               if (res.firstName) {
                 this.querySelector(".rd-header-fname").innerHTML =
                   res.firstName;

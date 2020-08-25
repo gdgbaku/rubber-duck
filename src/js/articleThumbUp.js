@@ -1,15 +1,15 @@
 const template = document.createElement("template");
 
 template.innerHTML = `
-  <a href="single.html"><figure class="bgcover" style="background-image:url(./img/thumb/thumb-512x512.jpg);height: 350px;"></figure></a>
-  <h3 class="entry-title mb-3"><a href="single.html">Can Resolving Emotional Trauma Ease Chronic Pain?</a></h3>
+  <a href="404.html"><figure class="bgcover" style="background-image:url(./img/thumb/thumb-512x512.jpg);height: 350px;"></figure></a>
+  <h3 class="entry-title mb-3"><a href="404.html">Can Resolving Emotional Trauma Ease Chronic Pain?</a></h3>
   <div class="entry-excerpt">
       <p>
         A new therapy teaches people to process their trauma as a way to treat chronic pain. Does it work? 
       </p>
   </div>
   <div class="entry-meta align-items-center">
-      <a href="author.html">Oliver</a> in <a href="archive.html">OneZero</a><br>                                  
+      <p>Oliver</p> in <a href="404.html">OneZero</a><br>                                  
       <span>Jun 14</span>
       <span class="middotDivider"></span>
       <span class="readingTime" title="3 min read">3 min read</span>
