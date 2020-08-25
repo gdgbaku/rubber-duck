@@ -7,8 +7,7 @@ templateFooter.innerHTML = `
   <div class="row">
     <div class="col-md-4 copyright text-xs-center">
       <p>
-        Copyright ?? 2019 GBG Baku inc. Designed by
-        <a href="https://alithemes.com">AliThemes.com</a>
+        Copyright &#169; 2019 GBG Baku inc. 
       </p>
     </div>
     <div class="col-md-4">
