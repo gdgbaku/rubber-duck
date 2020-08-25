@@ -77,7 +77,6 @@ class HeaderElement extends HTMLElement {
         },
       })
         .then((res) => {
-          console.log(res);
           if (res.status !== 200 && res.status !== 201) {
             this.querySelector(".rd-signin-btn").style.display = "block";
             this.querySelector(".rd-signup-btn").style.display = "block";
@@ -92,14 +91,11 @@ class HeaderElement extends HTMLElement {
           }
         })
         .then((res) => {
-          console.log(res);
-
           fetch(`https://gdg-ms-auth.herokuapp.com/user/${res.userId}`)
             .then((res) => {
               return res.json();
             })
             .then((res) => {
-              console.log(res);
               if (res.firstName) {
                 this.querySelector(".rd-header-fname").innerHTML =
                   res.firstName;

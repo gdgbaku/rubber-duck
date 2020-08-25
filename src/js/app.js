@@ -75,7 +75,6 @@ function contactUsPage() {
           "input[name=your-email] + .validity-msg"
         ).innerHTML = "Value not valid";
       }
-      console.log(document.querySelector("select[name=your-complaint]").value);
       if (document.querySelector("select[name=your-complaint]").value != 0) {
         type = document.querySelector("select[name=your-complaint]").value;
         document.querySelector(
@@ -119,8 +118,6 @@ function contactUsPage() {
         complaintData.surname = lastName;
         complaintData.typeId = type;
 
-        console.log(complaintData);
-
         fetch(`https://gdg-ms-complaint.herokuapp.com/complaint`, {
           method: "POST",
           headers: {
@@ -129,8 +126,6 @@ function contactUsPage() {
           body: JSON.stringify(complaintData),
         })
           .then((res) => {
-            console.log(res);
-
             if (res.ok) {
               return res;
             } else {
@@ -144,7 +139,7 @@ function contactUsPage() {
               "Message has been sent";
           })
           .catch((err) => {
-            console.log(err);
+            return;
           });
       }
     });
@@ -233,12 +228,9 @@ function passwordRecover() {
       },
     })
       .then((res) => {
-        console.log(res);
-
         if (!res.ok) {
           throw Error("Something went wrong. Check your email, please.");
         } else {
-          console.log("ok");
           document.querySelector("#passRecoveryModal .err-msg").innerHTML =
             "Sent";
           document.querySelector("#passRecoveryModal .err-msg").style.display =
@@ -260,7 +252,6 @@ function passwordRecover() {
 // When on signin page, send Auth request
 function validateAndSignIn(e) {
   e.preventDefault();
-  console.log("clicked");
   let errMsg = document.querySelector(".err-msg");
   let signData = {};
 
@@ -313,19 +304,16 @@ function validateAndSignIn(e) {
       body: signData,
     })
       .then((res) => {
-        console.log(res);
         return res.json();
       })
       .then((res) => {
         if (res.message) {
-          console.log(res);
           errMsg.style.display = "block";
           errMsg.innerHTML = res.message;
         }
         if (res.token) {
           window.localStorage.setItem("usr", res.token);
           location.href = `./index.html`;
-          console.log("Saved token");
         }
       });
   }
@@ -333,7 +321,6 @@ function validateAndSignIn(e) {
 
 // When on sign up page send signup request
 function validateAndSignUp(e) {
-  console.log("clicked");
   e.preventDefault();
   if (document.querySelector(".rd-signup-form")) {
     let errMsg = document.querySelector(".err-msg");
@@ -431,7 +418,6 @@ function validateAndSignUp(e) {
       userData.mail = email;
       userData.password = password;
 
-      console.log(JSON.stringify(userData));
       fetch(`https://gdg-ms-auth.herokuapp.com/user/sign-up`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -441,7 +427,6 @@ function validateAndSignUp(e) {
           return res.json();
         })
         .then((res) => {
-          console.log(res);
           if (res.status === 400) {
             errMsg.innerHTML = res.errors[0].defaultMessage;
             errMsg.style.display = "block";
@@ -455,13 +440,10 @@ function validateAndSignUp(e) {
           }
         })
         .catch((err) => {
-          console.log(err);
+          return;
         });
     } else {
-      console.log("Not Valid");
     }
-
-    console.log(userData);
   }
 }
 
@@ -537,7 +519,6 @@ async function fetchTeamMembers() {
       teamContainer.appendChild(memberElement);
     }
   } else {
-    console.log("non team");
   }
 }
 
