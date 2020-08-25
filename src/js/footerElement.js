@@ -51,12 +51,10 @@ class footerElement extends HTMLElement {
     let subInput = this.querySelector("input[type=email]");
     subBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      console.log("click");
 
       if (this.validateEmail(subInput.value)) {
         let subEmail = subInput.value;
 
-        console.log(subEmail);
         let subData = {};
         subData.email = subEmail;
         subData = JSON.stringify(subData);
@@ -72,12 +70,11 @@ class footerElement extends HTMLElement {
             return res.json();
           })
           .then((res) => {
-            console.log(res);
             this.querySelector(".rd-msg").innerHTML =
               "Thank you for subscribing!";
           });
       } else {
-        console.log("Invalid email");
+        return;
       }
     });
   }
