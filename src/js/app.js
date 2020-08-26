@@ -424,16 +424,19 @@ function validateAndSignUp(e) {
         body: JSON.stringify(userData),
       })
         .then((res) => {
-          return res.json();
+          if (res.ok) {
+            errMsg.classList.add("success-msg");
+            errMsg.style.display = "block";
+            errMsg.innerHTML = `You have successfully signed up! Please, verify your account via link we have sent to your email`;
+            return;
+          } else {
+            return res.json();
+          }
         })
         .then((res) => {
           if (res.status === 400) {
             errMsg.innerHTML = res.errors[0].defaultMessage;
             errMsg.style.display = "block";
-          } else if (res.status === 201) {
-            errMsg.classList.add("success-msg");
-            errMsg.style.display = "block";
-            errMsg.innerHTML = `You have successfully signed up! Please, verify your account via link we have sent to your email`;
           } else if (res.status === 500) {
             errMsg.innerHTML = res.message;
             errMsg.style.display = "block";
@@ -442,7 +445,6 @@ function validateAndSignUp(e) {
         .catch((err) => {
           return;
         });
-
     }
   }
 }
@@ -518,7 +520,6 @@ async function fetchTeamMembers() {
       memberElement.appendChild(position);
       teamContainer.appendChild(memberElement);
     }
-
   }
 }
 
