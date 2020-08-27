@@ -7,9 +7,6 @@ require("./teamShort");
 
 import IMask from "imask";
 
-// show password flag
-let showPassword = false;
-
 // Call all needen functions on page load
 window.addEventListener("load", function () {
   // searchForm();
@@ -573,6 +570,7 @@ function validateEmail(email) {
   return re.test(String(email).toLowerCase());
 }
 
+// Basic password validation
 function validatePassword(pass) {
   const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
 
