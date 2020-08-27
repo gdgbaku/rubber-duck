@@ -178,6 +178,24 @@ function addListeners() {
     document
       .querySelector(".rd-signup-form .rd-signup-btn")
       .addEventListener("click", validateAndSignUp);
+
+    document
+      .querySelector("input[name=password]")
+      .addEventListener("keyup", function () {
+        if (validatePassword(this.value)) {
+          document.querySelector("input[name=confpassword]").disabled = false;
+          document.querySelector("#checkTos").disabled = false;
+          document.querySelector(
+            ".rd-password-input ~ .pswd-helper"
+          ).style.color = "#444";
+        } else {
+          document.querySelector("input[name=confpassword]").disabled = true;
+          document.querySelector("#checkTos").disabled = true;
+          document.querySelector(
+            ".rd-password-input ~ .pswd-helper"
+          ).style.color = "#ff5252";
+        }
+      });
   }
 
   if (document.querySelector(".rd-signin-form")) {
@@ -191,9 +209,12 @@ function addListeners() {
   }
 
   if (document.querySelector(".rd-password-input")) {
-    document
-      .querySelector(".rd-password-input .rd-show-password")
-      .addEventListener("click", showPasswordToggle);
+    const showPassButtons = document.querySelectorAll(
+      ".rd-password-input .rd-show-password"
+    );
+    for (let btn of showPassButtons) {
+      btn.addEventListener("click", showPasswordToggle);
+    }
   }
 }
 
@@ -252,7 +273,9 @@ function passwordRecover() {
 // When on signin page, send Auth request
 function validateAndSignIn(e) {
   e.preventDefault();
-  let errMsg = document.querySelector(".err-msg");
+  let errMsg = document.querySelector(".rd-signin-form .err-msg");
+  errMsg.style.display = "none";
+  errMsg.innerHTML = "";
   let signData = {};
 
   let login;
@@ -276,11 +299,12 @@ function validateAndSignIn(e) {
   let password;
   if (
     document
-      .querySelector(".rd-signin-form input[type=password]")
+      .querySelector(".rd-signin-form .rd-password-input input[type=password]")
       .checkValidity()
   ) {
-    password = document.querySelector(".rd-signin-form input[type=password]")
-      .value;
+    password = document.querySelector(
+      ".rd-signin-form .rd-password-input input[type=password]"
+    ).value;
     document.querySelector(
       ".rd-signin-form .rd-password-input + .validity-msg"
     ).innerHTML = "";
@@ -307,9 +331,9 @@ function validateAndSignIn(e) {
         return res.json();
       })
       .then((res) => {
-        if (res.message) {
-          errMsg.style.display = "block";
+        if (!res.ok) {
           errMsg.innerHTML = res.message;
+          errMsg.style.display = "block";
         }
         if (res.token) {
           window.localStorage.setItem("usr", res.token);
@@ -325,6 +349,8 @@ function validateAndSignUp(e) {
   if (document.querySelector(".rd-signup-form")) {
     let errMsg = document.querySelector(".err-msg");
     errMsg.style.display = "none";
+    document.querySelector(".rd-password-input ~ .pswd-helper").style.color =
+      "#444";
 
     let userData = {};
 
@@ -366,31 +392,49 @@ function validateAndSignUp(e) {
     }
 
     let password;
-    if (document.querySelector("input[name=password]").checkValidity()) {
+    if (
+      validatePassword(document.querySelector("input[name=password]").value)
+    ) {
       password = document.querySelector("input[name=password]").value;
-      document.querySelector("input[name=password] ~ .validity-msg").innerHTML =
-        "";
     } else {
       password = "";
-      document.querySelector("input[name=password] ~ .validity-msg").innerHTML =
-        "Value not valid";
+      document.querySelector(".rd-password-input ~ .pswd-helper").style.color =
+        "#ff5252";
+      return;
     }
 
     let confpassword;
 
-    if (
-      document.querySelector("input[name=confpassword]").checkValidity() &&
-      document.querySelector("input[name=confpassword]").value === password
-    ) {
-      confpassword = document.querySelector("input[name=confpassword]").value;
-      document.querySelector(
-        "input[name=confpassword] ~ .validity-msg"
-      ).innerHTML = "";
-    } else {
+    // if (
+    //   !validatePassword(
+    //     document.querySelector("input[name=confpassword]").value
+    //   )
+    // ) {
+    //   console.log("notvalid");
+    //   confpassword = "";
+    //   document.querySelector(
+    //     "input[name=confpassword] ~ .validity-msg"
+    //   ).innerHTML = "Value not valid";
+    // } else if (
+    //   document.querySelector("input[name=confpassword]").value !== password
+    // ) {
+    //   confpassword = "";
+    //   document.querySelector(
+    //     "input[name=confpassword] ~ .validity-msg"
+    //   ).innerHTML = "Password values don't match";
+    // } else {
+    //   confpassword = document.querySelector("input[name=confpassword]").value;
+    //   document.querySelector(
+    //     "input[name=confpassword] ~ .validity-msg"
+    //   ).innerHTML = "";
+    // }
+    if (document.querySelector("input[name=confpassword]").value != password) {
       confpassword = "";
       document.querySelector(
         "input[name=confpassword] ~ .validity-msg"
       ).innerHTML = "Password values don't match";
+    } else {
+      confpassword = document.querySelector("input[name=confpassword]").value;
     }
 
     let tos = document.querySelector("#checkTos").checkValidity();
@@ -529,25 +573,21 @@ function validateEmail(email) {
   return re.test(String(email).toLowerCase());
 }
 
+function validatePassword(pass) {
+  const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+
+  return re.test(String(pass));
+}
+
 // Toggle show password
 function showPasswordToggle() {
-  if (!showPassword) {
-    document
-      .querySelector(".rd-password-input input")
-      .setAttribute("type", "text");
-    document.querySelector(".rd-password-input .fa-eye").style.display = "none";
-    document.querySelector(".rd-password-input .fa-eye-slash").style.display =
-      "inline-block";
-    showPassword = !showPassword;
-  } else {
-    document
-      .querySelector(".rd-password-input input")
-      .setAttribute("type", "password");
-    document.querySelector(".rd-password-input .fa-eye-slash").style.display =
-      "none";
-
-    document.querySelector(".rd-password-input .fa-eye").style.display =
-      "inline-block";
-    showPassword = !showPassword;
+  if (this.previousElementSibling.getAttribute("type") === "password") {
+    this.previousElementSibling.setAttribute("type", "text");
+    this.firstElementChild.firstElementChild.style.display = "none";
+    this.firstElementChild.lastElementChild.style.display = "block";
+  } else if (this.previousElementSibling.getAttribute("type") === "text") {
+    this.previousElementSibling.setAttribute("type", "password");
+    this.firstElementChild.firstElementChild.style.display = "block";
+    this.firstElementChild.lastElementChild.style.display = "none";
   }
 }
