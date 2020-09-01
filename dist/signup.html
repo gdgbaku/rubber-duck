@@ -74,9 +74,37 @@
                   minlength="8"
                   required
                 />
-                <div class="input-group-append">
+                <div class="input-group-append rd-show-password">
                   <button
-                    class="btn btn-secondary btn-outline-light rd-show-password"
+                    class="btn btn-secondary btn-outline-light"
+                    type="button"
+                  >
+                    <i class="fas fa-eye"></i>
+                    <i class="fas fa-eye-slash"></i>
+                  </button>
+                </div>
+              </div>
+
+              <span class="pswd-helper"
+                >Password must be at least 8 characters long, contain: a
+                lowercase and uppercase letter, a number and a special character
+                (!, @, #, $, %, ^, &, *)</span
+              >
+            </div>
+            <div class="form-group">
+              <div class="input-group rd-password-input">
+                <input
+                  type="password"
+                  class="form-control"
+                  name="confpassword"
+                  placeholder="Confirm Password"
+                  minlength="8"
+                  required
+                  disabled
+                />
+                <div class="input-group-append rd-show-password">
+                  <button
+                    class="btn btn-secondary btn-outline-light"
                     type="button"
                   >
                     <i class="fas fa-eye"></i>
@@ -85,23 +113,6 @@
                 </div>
                 <div class="validity-msg col-12"></div>
               </div>
-
-              <span class="pswd-helper"
-                >Password must be at least 8 characters long, contain: a
-                lowercase and uppercase letter, a number and a special
-                character</span
-              >
-            </div>
-            <div class="form-group">
-              <input
-                type="password"
-                class="form-control"
-                name="confpassword"
-                placeholder="Confirm password"
-                minlength="8"
-                required
-              />
-              <div class="validity-msg"></div>
             </div>
             <div class="form-group col-md-auto">
               <div class="form-check">
@@ -111,20 +122,24 @@
                   value=""
                   id="checkTos"
                   required
+                  disabled
                 />
                 <label
                   class="form-check-label"
                   for="checkTos"
-                  style="padding-left: 1rem; padding-top: 0.2rem;"
+                  style="padding-left: 1rem; padding-top: 0.2rem"
                 >
-                  I agree to <a class="rd-tos" href="" target="_blank">ToS</a>
+                  I agree to
+                  <a class="rd-tos text-underline" href="" target="_blank"
+                    ><u>Terms and conditions</u></a
+                  >
                 </label>
                 <div class="validity-msg"></div>
               </div>
             </div>
             <div class="err-msg"></div>
             <div class="form-group">
-              <button class="btn btn-dark rd-signup-btn">Sign Up</button>
+              <button class="btn btn-dark rd-signup-btn">SignUp</button>
             </div>
           </form>
         </div>
