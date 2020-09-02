@@ -1397,7 +1397,7 @@ button:hover,
 input[type="button"]:hover,
 input[type="reset"]:hover,
 input[type="submit"]:hover {
-  border: none;
+  /* border: none; */
 }
 
 /*404*/
