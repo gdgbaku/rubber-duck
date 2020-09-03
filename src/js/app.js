@@ -150,14 +150,15 @@ function addListeners() {
           signUpValidityFlags.set("confpassword", true);
 
           document.querySelector(
-            "input[name=confpassword] ~ .validity-msg"
-          ).innerHTML = "";
+            "input[name=confpassword"
+          ).parentElement.nextElementSibling.innerHTML = "";
         } else {
           signUpValidityFlags.set("confpassword", false);
 
           document.querySelector(
-            "input[name=confpassword] ~ .validity-msg"
-          ).innerHTML = "Password values don't match";
+            "input[name=confpassword"
+          ).parentElement.nextElementSibling.innerHTML =
+            "Password values don't match";
         }
         // if (checkSignUpFlags()) {
         //   document.querySelector(".rd-signup-btn").disabled = false;
@@ -534,36 +535,17 @@ function validateAndSignUp(e) {
 
     let confpassword;
 
-    // if (
-    //   !validatePassword(
-    //     document.querySelector("input[name=confpassword]").value
-    //   )
-    // ) {
-    //   console.log("notvalid");
-    //   confpassword = "";
-    //   document.querySelector(
-    //     "input[name=confpassword] ~ .validity-msg"
-    //   ).innerHTML = "Value not valid";
-    // } else if (
-    //   document.querySelector("input[name=confpassword]").value !== password
-    // ) {
-    //   confpassword = "";
-    //   document.querySelector(
-    //     "input[name=confpassword] ~ .validity-msg"
-    //   ).innerHTML = "Password values don't match";
-    // } else {
-    //   confpassword = document.querySelector("input[name=confpassword]").value;
-    //   document.querySelector(
-    //     "input[name=confpassword] ~ .validity-msg"
-    //   ).innerHTML = "";
-    // }
     if (document.querySelector("input[name=confpassword]").value != password) {
       confpassword = "";
       document.querySelector(
-        "input[name=confpassword] ~ .validity-msg"
-      ).innerHTML = "Password values don't match";
+        "input[name=confpassword"
+      ).parentElement.nextElementSibling.innerHTML =
+        "Password values don't match";
     } else {
       confpassword = document.querySelector("input[name=confpassword]").value;
+      document.querySelector(
+        "input[name=confpassword"
+      ).parentElement.nextElementSibling.innerHTML = "";
     }
 
     let tos = document.querySelector("#checkTos").checkValidity();
@@ -586,8 +568,9 @@ function validateAndSignUp(e) {
       confpassword === password
     ) {
       userData.areTermsAndConditionsConfirmed = tos;
-      userData.firstName = firstName;
-      userData.lastName = lastName;
+      userData.firstName =
+        firstName.charAt(0).toUpperCase() + firstName.slice(1);
+      userData.lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1);
       userData.mail = email;
       userData.password = password;
 
@@ -709,8 +692,8 @@ function validateEmail(email) {
 
 // Basic password validation
 function validatePassword(pass) {
-  const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
-
+  // const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+  const re = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[./_`~|{}?:;!(),><*@#$%^&+='])(?=\S+$).{8,}$/;
   return re.test(String(pass));
 }
 

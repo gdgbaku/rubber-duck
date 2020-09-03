@@ -1548,7 +1548,7 @@ input[type="checkbox"] {
   display: block;
   color: #444;
   font-size: 0.7rem;
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 1rem;
 }
 
 .validity-msg {
