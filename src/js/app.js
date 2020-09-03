@@ -7,15 +7,205 @@ require("./teamShort");
 
 import IMask from "imask";
 
+// let signUpValidityFlags = {
+//   name: false,
+//   lastname: false,
+//   email: false,
+//   password: false,
+//   confpassword: false,
+//   tos: false,
+// };
+
+let signUpValidityFlags = new Map();
+
+signUpValidityFlags.set("name", false);
+signUpValidityFlags.set("lastame", false);
+signUpValidityFlags.set("email", false);
+signUpValidityFlags.set("password", false);
+signUpValidityFlags.set("confpassword", false);
+signUpValidityFlags.set("tos", false);
+
 // Call all needen functions on page load
 window.addEventListener("load", function () {
   // searchForm();
+
   fetchTeamMembers();
   fetchToS();
   addListeners();
   validatePhoneNumber();
   contactUsPage();
 });
+
+// Here we add listeners relative to the current page
+function addListeners() {
+  if (document.querySelector(".rd-signup-form")) {
+    document.querySelector(".rd-signup-form .rd-signup-btn").disabled = true;
+    document
+      .querySelector(".rd-signup-form .rd-signup-btn")
+      .addEventListener("click", validateAndSignUp);
+
+    document
+      .querySelector("input[name=firstname]")
+      .addEventListener("keyup", function () {
+        if (this.checkValidity()) {
+          signUpValidityFlags.set("name", true);
+          document.querySelector(
+            "input[name=firstname] ~ .validity-msg"
+          ).innerHTML = "";
+        } else {
+          signUpValidityFlags.set("name", false);
+
+          document.querySelector(
+            "input[name=firstname] ~ .validity-msg"
+          ).innerHTML = "Value not valid";
+        }
+        console.log(checkSignUpFlags());
+        // if (checkSignUpFlags()) {
+        //   document.querySelector(".rd-signup-btn").disabled = false;
+        // }
+        document.querySelector(
+          ".rd-signup-form .rd-signup-btn"
+        ).disabled = !checkSignUpFlags();
+      });
+
+    document
+      .querySelector("input[name=lastname]")
+      .addEventListener("keyup", function () {
+        if (this.checkValidity()) {
+          signUpValidityFlags.set("lastname", true);
+
+          document.querySelector(
+            "input[name=lastname] ~ .validity-msg"
+          ).innerHTML = "";
+        } else {
+          signUpValidityFlags.set("lastname", false);
+
+          document.querySelector(
+            "input[name=lastname] ~ .validity-msg"
+          ).innerHTML = "Value not valid";
+        }
+        // if (checkSignUpFlags()) {
+        //   document.querySelector(".rd-signup-btn").disabled = false;
+        // }
+        document.querySelector(
+          ".rd-signup-form .rd-signup-btn"
+        ).disabled = !checkSignUpFlags();
+      });
+    document
+      .querySelector("input[name=email]")
+      .addEventListener("keyup", function () {
+        if (validateEmail(this.value)) {
+          signUpValidityFlags.set("email", true);
+
+          document.querySelector(
+            "input[name=email] ~ .validity-msg"
+          ).innerHTML = "";
+        } else {
+          signUpValidityFlags.set("email", false);
+
+          document.querySelector(
+            "input[name=email] ~ .validity-msg"
+          ).innerHTML = "Value not valid";
+        }
+        // if (checkSignUpFlags()) {
+        //   document.querySelector(".rd-signup-btn").disabled = false;
+        // }
+        document.querySelector(
+          ".rd-signup-form .rd-signup-btn"
+        ).disabled = !checkSignUpFlags();
+      });
+    document
+      .querySelector("input[name=password]")
+      .addEventListener("keyup", function () {
+        if (validatePassword(this.value)) {
+          signUpValidityFlags.set("password", true);
+
+          document.querySelector("input[name=confpassword]").disabled = false;
+          document.querySelector("#checkTos").disabled = false;
+          document.querySelector(
+            ".rd-password-input ~ .pswd-helper"
+          ).style.color = "#444";
+        } else {
+          signUpValidityFlags.set("password", false);
+          document.querySelector("input[name=confpassword]").disabled = true;
+          document.querySelector("#checkTos").disabled = true;
+          document.querySelector(
+            ".rd-password-input ~ .pswd-helper"
+          ).style.color = "#ff5252";
+        }
+        // if (checkSignUpFlags()) {
+        //   document.querySelector(".rd-signup-btn").disabled = false;
+        // }
+        document.querySelector(
+          ".rd-signup-form .rd-signup-btn"
+        ).disabled = !checkSignUpFlags();
+      });
+
+    document
+      .querySelector("input[name=confpassword")
+      .addEventListener("keyup", function () {
+        if (
+          this.value === document.querySelector("input[name=password").value
+        ) {
+          signUpValidityFlags.set("confpassword", true);
+
+          document.querySelector(
+            "input[name=confpassword"
+          ).parentElement.nextElementSibling.innerHTML = "";
+        } else {
+          signUpValidityFlags.set("confpassword", false);
+
+          document.querySelector(
+            "input[name=confpassword"
+          ).parentElement.nextElementSibling.innerHTML =
+            "Password values don't match";
+        }
+        // if (checkSignUpFlags()) {
+        //   document.querySelector(".rd-signup-btn").disabled = false;
+        // }
+        document.querySelector(
+          ".rd-signup-form .rd-signup-btn"
+        ).disabled = !checkSignUpFlags();
+      });
+
+    document.querySelector("#checkTos").addEventListener("click", function () {
+      if (this.checked) {
+        signUpValidityFlags.set("tos", true);
+
+        this.nextElementSibling.style.color = "rgba(0, 0, 0, 0.84)";
+      } else {
+        signUpValidityFlags.set("tos", false);
+
+        this.nextElementSibling.style.color = "#ff5252";
+      }
+      // if (checkSignUpFlags()) {
+      //   document.querySelector(".rd-signup-btn").disabled = false;
+      // }
+      document.querySelector(
+        ".rd-signup-form .rd-signup-btn"
+      ).disabled = !checkSignUpFlags();
+    });
+  }
+
+  if (document.querySelector(".rd-signin-form")) {
+    document
+      .querySelector(".rd-signin-form .rd-signin-btn")
+      .addEventListener("click", validateAndSignIn);
+
+    document
+      .querySelector(".pass-recovery")
+      .addEventListener("click", passwordRecover);
+  }
+
+  if (document.querySelector(".rd-password-input")) {
+    const showPassButtons = document.querySelectorAll(
+      ".rd-password-input .rd-show-password"
+    );
+    for (let btn of showPassButtons) {
+      btn.addEventListener("click", showPasswordToggle);
+    }
+  }
+}
 
 // When on contact page add click listener to the button and submit the form
 function contactUsPage() {
@@ -144,17 +334,6 @@ function contactUsPage() {
 }
 
 // Use IMask.js to validate phone number input
-function validatePhoneNumber() {
-  if (document.querySelector(".rd-contact-form")) {
-    const phoneInput = document.querySelector(
-      ".rd-contact-form input[type=phone]"
-    );
-    const phonePatternMask = IMask(phoneInput, {
-      mask: /^\+?[0-9]*$/,
-      lazy: false,
-    });
-  }
-}
 
 // When on signup page fetch the link to the terms and conditions link
 function fetchToS() {
@@ -166,52 +345,6 @@ function fetchToS() {
       .then((res) => {
         document.querySelector(".rd-tos").href = res.termsAndConditions;
       });
-  }
-}
-
-// Here we add listeners relative to the current page
-function addListeners() {
-  if (document.querySelector(".rd-signup-form")) {
-    document
-      .querySelector(".rd-signup-form .rd-signup-btn")
-      .addEventListener("click", validateAndSignUp);
-
-    document
-      .querySelector("input[name=password]")
-      .addEventListener("keyup", function () {
-        if (validatePassword(this.value)) {
-          document.querySelector("input[name=confpassword]").disabled = false;
-          document.querySelector("#checkTos").disabled = false;
-          document.querySelector(
-            ".rd-password-input ~ .pswd-helper"
-          ).style.color = "#444";
-        } else {
-          document.querySelector("input[name=confpassword]").disabled = true;
-          document.querySelector("#checkTos").disabled = true;
-          document.querySelector(
-            ".rd-password-input ~ .pswd-helper"
-          ).style.color = "#ff5252";
-        }
-      });
-  }
-
-  if (document.querySelector(".rd-signin-form")) {
-    document
-      .querySelector(".rd-signin-form .rd-signin-btn")
-      .addEventListener("click", validateAndSignIn);
-
-    document
-      .querySelector(".pass-recovery")
-      .addEventListener("click", passwordRecover);
-  }
-
-  if (document.querySelector(".rd-password-input")) {
-    const showPassButtons = document.querySelectorAll(
-      ".rd-password-input .rd-show-password"
-    );
-    for (let btn of showPassButtons) {
-      btn.addEventListener("click", showPasswordToggle);
-    }
   }
 }
 
@@ -402,36 +535,17 @@ function validateAndSignUp(e) {
 
     let confpassword;
 
-    // if (
-    //   !validatePassword(
-    //     document.querySelector("input[name=confpassword]").value
-    //   )
-    // ) {
-    //   console.log("notvalid");
-    //   confpassword = "";
-    //   document.querySelector(
-    //     "input[name=confpassword] ~ .validity-msg"
-    //   ).innerHTML = "Value not valid";
-    // } else if (
-    //   document.querySelector("input[name=confpassword]").value !== password
-    // ) {
-    //   confpassword = "";
-    //   document.querySelector(
-    //     "input[name=confpassword] ~ .validity-msg"
-    //   ).innerHTML = "Password values don't match";
-    // } else {
-    //   confpassword = document.querySelector("input[name=confpassword]").value;
-    //   document.querySelector(
-    //     "input[name=confpassword] ~ .validity-msg"
-    //   ).innerHTML = "";
-    // }
     if (document.querySelector("input[name=confpassword]").value != password) {
       confpassword = "";
       document.querySelector(
-        "input[name=confpassword] ~ .validity-msg"
-      ).innerHTML = "Password values don't match";
+        "input[name=confpassword"
+      ).parentElement.nextElementSibling.innerHTML =
+        "Password values don't match";
     } else {
       confpassword = document.querySelector("input[name=confpassword]").value;
+      document.querySelector(
+        "input[name=confpassword"
+      ).parentElement.nextElementSibling.innerHTML = "";
     }
 
     let tos = document.querySelector("#checkTos").checkValidity();
@@ -454,8 +568,9 @@ function validateAndSignUp(e) {
       confpassword === password
     ) {
       userData.areTermsAndConditionsConfirmed = tos;
-      userData.firstName = firstName;
-      userData.lastName = lastName;
+      userData.firstName =
+        firstName.charAt(0).toUpperCase() + firstName.slice(1);
+      userData.lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1);
       userData.mail = email;
       userData.password = password;
 
@@ -480,6 +595,10 @@ function validateAndSignUp(e) {
             errMsg.style.display = "block";
           } else if (res.status === 500) {
             errMsg.innerHTML = res.message;
+            errMsg.style.display = "block";
+          } else {
+            errMsg.innerHTML =
+              "Something went wrong. Please, try again or reach out.";
             errMsg.style.display = "block";
           }
         })
@@ -566,15 +685,44 @@ async function fetchTeamMembers() {
 
 // A simple basic email validation
 function validateEmail(email) {
-  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  // const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g;
   return re.test(String(email).toLowerCase());
 }
 
 // Basic password validation
 function validatePassword(pass) {
-  const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
-
+  // const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+  const re = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[./_`~|{}?:;!(),><*@#$%^&+='])(?=\S+$).{8,}$/;
   return re.test(String(pass));
+}
+
+function validatePhoneNumber() {
+  if (document.querySelector(".rd-contact-form")) {
+    const phoneInput = document.querySelector(
+      ".rd-contact-form input[type=phone]"
+    );
+    const phonePatternMask = IMask(phoneInput, {
+      mask: /^\+?[0-9]*$/,
+      lazy: false,
+    });
+  }
+}
+
+function checkSignUpFlags() {
+  let i = 0;
+
+  for (let flag of signUpValidityFlags.values()) {
+    if (flag) {
+      i++;
+    }
+  }
+
+  if (i === 6) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 // Toggle show password
