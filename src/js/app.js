@@ -452,13 +452,14 @@ function validateAndSignIn(e) {
       body: signData,
     })
       .then((res) => {
-        return res.json();
-      })
-      .then((res) => {
         if (!res.ok) {
           errMsg.innerHTML = res.message;
           errMsg.style.display = "block";
+        } else {
+          return res.json();
         }
+      })
+      .then((res) => {
         if (res.token) {
           window.localStorage.setItem("usr", res.token);
           location.href = `./index.html`;
