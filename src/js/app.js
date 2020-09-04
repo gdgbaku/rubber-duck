@@ -361,12 +361,12 @@ function passwordRecover() {
     email = document.querySelector("#passRecoveryModal input[type=email]")
       .value;
     document.querySelector(
-      "#passRecoveryModal input[type=email] + .validity-msg"
+      "#passRecoveryModal input[type=text] + .validity-msg"
     ).innerHTML = "";
   } else {
     email = "";
     document.querySelector(
-      "#passRecoveryModal input[type=email] + .validity-msg"
+      "#passRecoveryModal input[type=text] + .validity-msg"
     ).innerHTML = "Email not valid";
   }
 
@@ -407,16 +407,16 @@ function validateAndSignIn(e) {
   let login;
 
   if (
-    document.querySelector(".rd-signin-form input[type=email]").checkValidity()
+    document.querySelector(".rd-signin-form input[type=text]").checkValidity()
   ) {
-    login = document.querySelector(".rd-signin-form input[type=email]").value;
+    login = document.querySelector(".rd-signin-form input[type=text]").value;
     document.querySelector(
-      ".rd-signin-form input[type=email] + .validity-msg"
+      ".rd-signin-form input[type=text] + .validity-msg"
     ).innerHTML = "";
   } else {
     login = "";
     document.querySelector(
-      ".rd-signin-form input[type=email] + .validity-msg"
+      ".rd-signin-form input[type=text] + .validity-msg"
     ).innerHTML = "Email not valid";
   }
 
