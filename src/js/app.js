@@ -354,19 +354,19 @@ function passwordRecover() {
   document.querySelector("#passRecoveryModal .err-msg").innerHTML = "";
   document.querySelector("#passRecoveryModal .err-msg").style.display = "none";
   if (
-    validateEmail(
-      document.querySelector("#passRecoveryModal input[type=email]").value
-    )
+    document
+      .querySelector("#passRecoveryModal input[type=email]")
+      .checkValidity()
   ) {
     email = document.querySelector("#passRecoveryModal input[type=email]")
       .value;
     document.querySelector(
-      "#passRecoveryModal input[type=email] + .validity-msg"
+      "#passRecoveryModal input[type=text] + .validity-msg"
     ).innerHTML = "";
   } else {
     email = "";
     document.querySelector(
-      "#passRecoveryModal input[type=email] + .validity-msg"
+      "#passRecoveryModal input[type=text] + .validity-msg"
     ).innerHTML = "Email not valid";
   }
 
@@ -379,17 +379,13 @@ function passwordRecover() {
       },
     })
       .then((res) => {
-        if (!res.ok) {
-          throw Error("Something went wrong. Check your email, please.");
-        } else {
-          document.querySelector("#passRecoveryModal .err-msg").innerHTML =
-            "Sent";
-          document.querySelector("#passRecoveryModal .err-msg").style.display =
-            "block";
-          document
-            .querySelector("#passRecoveryModal .err-msg")
-            .classList.add("success-msg");
-        }
+        document.querySelector("#passRecoveryModal .err-msg").innerHTML =
+          "If you're a registered user, you'll receive an email with password recovery instructions shortly.";
+        document.querySelector("#passRecoveryModal .err-msg").style.display =
+          "block";
+        document
+          .querySelector("#passRecoveryModal .err-msg")
+          .classList.add("success-msg");
       })
 
       .catch((err) => {
@@ -411,18 +407,16 @@ function validateAndSignIn(e) {
   let login;
 
   if (
-    validateEmail(
-      document.querySelector(".rd-signin-form input[type=email]").value
-    )
+    document.querySelector(".rd-signin-form input[type=text]").checkValidity()
   ) {
-    login = document.querySelector(".rd-signin-form input[type=email]").value;
+    login = document.querySelector(".rd-signin-form input[type=text]").value;
     document.querySelector(
-      ".rd-signin-form input[type=email] + .validity-msg"
+      ".rd-signin-form input[type=text] + .validity-msg"
     ).innerHTML = "";
   } else {
     login = "";
     document.querySelector(
-      ".rd-signin-form input[type=email] + .validity-msg"
+      ".rd-signin-form input[type=text] + .validity-msg"
     ).innerHTML = "Email not valid";
   }
 
@@ -458,13 +452,14 @@ function validateAndSignIn(e) {
       body: signData,
     })
       .then((res) => {
-        return res.json();
-      })
-      .then((res) => {
         if (!res.ok) {
           errMsg.innerHTML = res.message;
           errMsg.style.display = "block";
+        } else {
+          return res.json();
         }
+      })
+      .then((res) => {
         if (res.token) {
           window.localStorage.setItem("usr", res.token);
           location.href = `./index.html`;
