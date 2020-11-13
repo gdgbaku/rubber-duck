@@ -59,7 +59,6 @@ function addListeners() {
             "input[name=firstname] ~ .validity-msg"
           ).innerHTML = "Value not valid";
         }
-        console.log(checkSignUpFlags());
         // if (checkSignUpFlags()) {
         //   document.querySelector(".rd-signup-btn").disabled = false;
         // }
@@ -452,7 +451,6 @@ function validateAndSignIn(e) {
       body: signData,
     })
       .then((res) => {
-        console.log(res);
         if (res.ok) {
           window.localStorage.setItem("usr", res.token);
           location.href = `./index.html`;
