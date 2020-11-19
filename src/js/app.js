@@ -666,14 +666,14 @@ async function fetchTeamMembers() {
       membersNumber++;
     }
 
-
-    let currMember = 0;
+    console.log(membersNumber);
+    let currMember = 1;
 
     for (let member of members) {
       let memberElement = document.createElement("rd-team-short");
-      currMember++;
-
-      if (currMember === membersNumber) {
+      
+      console.log(currMember, membersNumber)
+      if ( (membersNumber - 1) % 2 === 0 && currMember === membersNumber) {
         memberElement.classList.add("col-md-12");
       } else {
         memberElement.classList.add("col-md-6");
@@ -704,8 +704,10 @@ async function fetchTeamMembers() {
       memberElement.appendChild(email);
       memberElement.appendChild(position);
       teamContainer.appendChild(memberElement);
+      currMember++;
     }
     spinner.style.display = "none";
+    
   }
 }
 
