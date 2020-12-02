@@ -673,7 +673,7 @@ async function fetchTeamMembers() {
       let memberElement = document.createElement("rd-team-short");
       
       console.log(currMember, membersNumber)
-      if ( (membersNumber - 1) % 2 === 0 && currMember === membersNumber) {
+      if ( (membersNumber - 1) % 2 !== 0 && currMember === membersNumber) {
         memberElement.classList.add("col-md-12");
       } else {
         memberElement.classList.add("col-md-6");

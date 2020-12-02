@@ -49,6 +49,7 @@ template.innerHTML = `
     .team-short-content {
       color: #555;
       font-size: 1rem;
+      min-width: 170px;
     }
 
     .content-social-author {
