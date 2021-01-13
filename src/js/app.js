@@ -666,13 +666,13 @@ async function fetchTeamMembers() {
       membersNumber++;
     }
 
-    console.log(membersNumber);
+    
     let currMember = 1;
 
     for (let member of members) {
       let memberElement = document.createElement("rd-team-short");
       
-      console.log(currMember, membersNumber)
+      
       if ( (membersNumber - 1) % 2 !== 0 && currMember === membersNumber) {
         memberElement.classList.add("col-md-12");
       } else {
