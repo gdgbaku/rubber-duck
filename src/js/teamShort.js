@@ -12,7 +12,7 @@ template.innerHTML = `
       margin: 1.5rem 0.5rem;
       display: flex;
       flex-direction: row;
-      justify-content: flex-start;
+      justify-content: center;
       align-items: center;
       color: rgba(0,0,0,.84)
 
@@ -49,6 +49,7 @@ template.innerHTML = `
     .team-short-content {
       color: #555;
       font-size: 1rem;
+      min-width: 170px;
     }
 
     .content-social-author {

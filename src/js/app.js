@@ -631,7 +631,7 @@ function validateAndSignUp(e) {
 async function fetchTeamMembers() {
   if (document.querySelector(".team-members")) {
     const url = `https://gdg-ms-team.herokuapp.com/api/members`;
-
+    let spinner = document.querySelector('.lds-dual-ring');
     let response = await fetch(url);
     const reader = response.body.getReader();
 
@@ -659,10 +659,26 @@ async function fetchTeamMembers() {
     let members = JSON.parse(result);
 
     let teamContainer = document.querySelector(".team-members .container .row");
+    let membersNumber = 0;
+
+
+    for (let member of members) { 
+      membersNumber++;
+    }
+
+    
+    let currMember = 1;
 
     for (let member of members) {
       let memberElement = document.createElement("rd-team-short");
-      memberElement.classList.add("col-md-4");
+      
+      
+      if ( (membersNumber - 1) % 2 !== 0 && currMember === membersNumber) {
+        memberElement.classList.add("col-md-12");
+      } else {
+        memberElement.classList.add("col-md-6");
+      }
+      
       memberElement.classList.add("m-auto");
       memberElement.setAttribute("avatar", member.photo[0]);
       memberElement.setAttribute("giturl", member.github);
@@ -688,7 +704,10 @@ async function fetchTeamMembers() {
       memberElement.appendChild(email);
       memberElement.appendChild(position);
       teamContainer.appendChild(memberElement);
+      currMember++;
     }
+    spinner.style.display = "none";
+    
   }
 }
 
